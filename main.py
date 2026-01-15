@@ -2,7 +2,7 @@ def print_menu():
     print("Choose one:")
     print("1. Display Tasks")
     print("2. Add task")
-    print("3. Delete Task")
+    print("3. Check task as completed")
     print("4. Exit")
 
 
@@ -10,7 +10,7 @@ def print_tasks(tasks):
     print("\nYour tasks:")
     for index, task in enumerate(tasks):
         print(
-            f"{index + 1}. {task['description']} {task["deadline"]} {'✅' if task['is_completed'] else ''}"
+            f"{index + 1}. {task["description"]} {task["deadline"]} {"✅" if task["is_completed"] else ""}"
         )
 
 
@@ -59,7 +59,9 @@ while choice != 4:
             
             print("\nTask added successfully")
         case 3:
-            print("delete")
+            task_id = int(input("Enter number of the completed task: "))
+            tasks[task_id - 1].update({"is_completed": True})
+            print(f"\nTask no. {task_id} completed")
     print()
     print_menu()
     choice = int(input("Enter your choice: "))
