@@ -58,10 +58,13 @@ while choice != 4:
             )
             
             print("\nTask added successfully")
+            print_tasks(tasks)
         case 3:
             task_id = int(input("Enter number of the completed task: "))
             tasks[task_id - 1].update({"is_completed": True})
+            
             print(f"\nTask no. {task_id} completed")
+            print_tasks(tasks)
     print()
     print_menu()
     choice = int(input("Enter your choice: "))
