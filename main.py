@@ -20,8 +20,8 @@ def is_date_valid(date):
     if date == "":
         return True
     try:
-        datetime.strptime(date, "%d-%m-%y")
-        return True
+        date = datetime.strptime(date, "%d-%m-%y")
+        return date < datetime.now()
     except ValueError:
         return False
 
@@ -68,7 +68,7 @@ while choice != 4:
             new_task_deadline = input("Enter deadline (optional) [DD-MM-YY]: ")
             
             if not is_date_valid(new_task_deadline):
-                print(f"\nInvalid date format (DD-MM-YY). Task not added.\n")
+                print(f"\nInvalid date (format / past date). Task not added.\n")
                 print_menu()
                 
                 choice = int(input("Enter your choice: "))
