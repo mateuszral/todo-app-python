@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def print_menu():
     print("Choose one:")
     print("1. Display Tasks")
@@ -13,6 +16,14 @@ def print_tasks(tasks):
             f"{index + 1}. {task["description"]} {task["deadline"]} {"✅" if task["is_completed"] else ""}"
         )
 
+def is_date_valid(date):
+    if date == "":
+        return True
+    try:
+        datetime.strptime(date, "%d-%m-%y")
+        return True
+    except ValueError:
+        return False
 
 # boilerplate
 tasks = [
@@ -46,7 +57,22 @@ while choice != 4:
             print_tasks(tasks)
         case 2:
             new_task_description = input("Enter task name: ")
-            new_task_deadline = input("Enter deadline (optional) [DD-MM-YYYY]: ")
+            
+            if new_task_description.strip() == "":
+                print("\nTask description cannot be empty. Task not added.\n")
+                print_menu()
+                
+                choice = int(input("Enter your choice: "))
+                continue
+            
+            new_task_deadline = input("Enter deadline (optional) [DD-MM-YY]: ")
+            
+            if not is_date_valid(new_task_deadline):
+                print(f"\nInvalid date format (DD-MM-YY). Task not added.\n")
+                print_menu()
+                
+                choice = int(input("Enter your choice: "))
+                continue
             
             tasks.append(
                 {
@@ -69,4 +95,6 @@ while choice != 4:
     print_menu()
     choice = int(input("Enter your choice: "))
 
+print("\nThank you for using the To-Do List application. Goodbye!")
 exit()
+    
