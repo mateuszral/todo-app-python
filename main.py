@@ -133,6 +133,12 @@ while choice != 5:
                 
                 continue
             
+            if tasks[task_id - 1]["is_completed"]:
+                print(f"\nTask no. {task_id} is already completed.\n")
+                
+                choice = 0
+                continue
+            
             tasks[task_id - 1].update({"is_completed": True})
             
             print(f"\nTask no. {task_id} completed")

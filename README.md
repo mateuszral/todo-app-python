@@ -8,5 +8,5 @@ ToDo:
 - add remove one/all tasks (or multiple numbers) ✅
 - check if remove task input is valid(is number at all) ✅
 - check for choice number ✅
-- check if task to complete is already completed
+- check if task to complete is already completed ✅
 - check if deadline passed
