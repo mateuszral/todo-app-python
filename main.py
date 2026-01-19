@@ -63,13 +63,11 @@ while choice != 5:
             
             if new_task_description.strip() == "":
                 print("\nTask description cannot be empty. Task not added.\n")
-                print_menu()
-                
-                try:
-                    choice = int(input("Enter your choice: "))
-                except ValueError:
-                    print("\nInvalid input. Please enter a number from 1 to 5.\n")
-                    choice = 0
+                    
+                continue
+            
+            if new_task_description.lower() in [task["description"].lower() for task in tasks]:
+                print("\nTask already exists. Task not added.\n")
                     
                 continue
             
@@ -77,9 +75,7 @@ while choice != 5:
             
             if not is_date_valid(new_task_deadline):
                 print(f"\nInvalid date (format / past date). Task not added.\n")
-                print_menu()
-                
-                choice = int(input("Enter your choice: "))
+
                 continue
             
             tasks.append(
@@ -101,6 +97,7 @@ while choice != 5:
                 
                 choice = 3
                 continue
+            
             tasks[task_id - 1].update({"is_completed": True})
             
             print(f"\nTask no. {task_id} completed")
