@@ -1,5 +1,8 @@
-from datetime import datetime
 import time
+import json
+
+from datetime import datetime
+
 
 def print_menu():
     print("Choose one:")
@@ -27,23 +30,30 @@ def is_date_valid(date):
         return False
 
 # boilerplate
-tasks = [
-    {
-        "description": "Buy milk and groceries",
-        "is_completed": False,
-        "deadline": "20-01-2026",
-    },
-    {
-        "description": "Walk the dog", 
-        "is_completed": True,
-        "deadline": "",
-    },
-    {
-        "description": "Read a book",
-        "is_completed": False,
-        "deadline": "30-01-2026",
-    },
-]
+# tasks = [
+#     {
+#         "description": "Buy milk and groceries",
+#         "is_completed": False,
+#         "deadline": "20-01-2026",
+#     },
+#     {
+#         "description": "Walk the dog", 
+#         "is_completed": True,
+#         "deadline": "",
+#     },
+#     {
+#         "description": "Read a book",
+#         "is_completed": False,
+#         "deadline": "30-01-2026",
+#     },
+# ]
+
+try:
+    with open("./tasks.json", "r") as tasks_file:
+        tasks = json.load(tasks_file)
+        tasks_file.close()
+except FileNotFoundError:
+    tasks = []
 
 print("Welcome to the To-Do List application!\n")
 print_menu()
@@ -162,6 +172,10 @@ while choice != 5:
             print("\nInvalid choice. Please try again.\n")
             choice = 0
                 
+
+with open("./tasks.json", "w") as tasks_file:
+    json.dump(tasks, tasks_file, indent=4)
+    tasks_file.close()
 
 print("\nThank you for using the To-Do List application. Goodbye!")
 time.sleep(2)
