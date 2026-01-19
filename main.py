@@ -5,15 +5,16 @@ def print_menu():
     print("Choose one:")
     print("1. Display Tasks")
     print("2. Add task")
-    print("3. Check task as completed")
-    print("4. Exit")
+    print("3. Mark task as completed")
+    print("4. Delete task/s")
+    print("5. Exit")
 
 
 def print_tasks(tasks):
     print("\nYour tasks:")
     for index, task in enumerate(tasks):
         print(
-            f"{index + 1}. {task["description"]} {task["deadline"]} {"✅" if task["is_completed"] else ""}"
+            f"{index + 1}. {task['description']} {task['deadline']} {'✅' if task['is_completed'] else ''}"
         )
 
 def is_date_valid(date):
@@ -28,19 +29,16 @@ def is_date_valid(date):
 # boilerplate
 tasks = [
     {
-        "id": 1,
         "description": "Buy milk and groceries",
         "is_completed": False,
         "deadline": "20-01-2026",
     },
     {
-        "id": 2, 
         "description": "Walk the dog", 
         "is_completed": True,
         "deadline": "",
     },
     {
-        "id": 3,
         "description": "Read a book",
         "is_completed": False,
         "deadline": "30-01-2026",
@@ -51,7 +49,7 @@ print("Welcome to the To-Do List application!\n")
 print_menu()
 choice = int(input("Enter your choice: "))
 
-while choice != 4:
+while choice != 5:
     match choice:
         case 1:
             print_tasks(tasks)
@@ -76,7 +74,6 @@ while choice != 4:
             
             tasks.append(
                 {
-                    "id": len(tasks) + 1,
                     "description": new_task_description.capitalize(),
                     "is_completed": False,
                     "deadline": new_task_deadline,
@@ -91,6 +88,33 @@ while choice != 4:
             
             print(f"\nTask no. {task_id} completed")
             print_tasks(tasks)
+        case 4:
+            task_ids = input("Enter numbers of the task/s to delete (separated by commas) or type 'all' to delete everything (irreversible): ").strip().lower()
+            
+            print(task_ids)
+            
+            if task_ids == "all":
+                tasks.clear()
+                print("\nAll tasks deleted.\n")
+            elif not task_ids.replace(",", "").strip().isdigit():
+                print("\nInvalid input. Please enter valid task numbers separated by commas or 'all'.\n")
+            elif task_ids == "":
+                print("\nNo task IDs provided. No tasks deleted.\n")
+            else:
+                task_ids = [int(id.strip()) for id in task_ids.split(",")]
+                
+                print()
+                
+                for index, task_id in enumerate(sorted(task_ids)):   
+                    if 0 < (task_id - index) <= len(tasks):
+                        tasks.pop(task_id - 1 - index)
+                        print(f"Task no. {task_id} deleted.")
+                    else:
+                        print(f"Task no. {task_id} does not exist. Skipping.")
+                        
+                print()
+                
+                
     print()
     print_menu()
     choice = int(input("Enter your choice: "))
