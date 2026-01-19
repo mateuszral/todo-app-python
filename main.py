@@ -47,8 +47,13 @@ tasks = [
 
 print("Welcome to the To-Do List application!\n")
 print_menu()
-choice = int(input("Enter your choice: "))
 
+try:
+    choice = int(input("Enter your choice: "))
+except ValueError:
+    print("\nInvalid input. Please enter a number from 1 to 5.\n")
+    choice = 0
+    
 while choice != 5:
     match choice:
         case 1:
@@ -60,7 +65,12 @@ while choice != 5:
                 print("\nTask description cannot be empty. Task not added.\n")
                 print_menu()
                 
-                choice = int(input("Enter your choice: "))
+                try:
+                    choice = int(input("Enter your choice: "))
+                except ValueError:
+                    print("\nInvalid input. Please enter a number from 1 to 5.\n")
+                    choice = 0
+                    
                 continue
             
             new_task_deadline = input("Enter deadline (optional) [DD-MM-YY]: ")
@@ -83,7 +93,14 @@ while choice != 5:
             print("\nTask added successfully")
             print_tasks(tasks)
         case 3:
-            task_id = int(input("Enter number of the completed task: "))
+            try:
+                task_id = int(input("Enter number of the completed task: "))
+            except ValueError:
+                print("\nInvalid input. Please enter a valid task number.\n")
+                print_tasks(tasks)
+                
+                choice = 3
+                continue
             tasks[task_id - 1].update({"is_completed": True})
             
             print(f"\nTask no. {task_id} completed")
@@ -113,11 +130,17 @@ while choice != 5:
                         print(f"Task no. {task_id} does not exist. Skipping.")
                         
                 print()
+        case _:
+            print("\nInvalid choice. Please try again.\n")
                 
                 
     print()
     print_menu()
-    choice = int(input("Enter your choice: "))
+    try:
+        choice = int(input("Enter your choice: "))
+    except ValueError:
+        print("\nInvalid input. Please enter a number from 1 to 5.\n")
+        choice = 0
 
 print("\nThank you for using the To-Do List application. Goodbye!")
 exit()
