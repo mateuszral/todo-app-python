@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import time
 
 def print_menu():
     print("Choose one:")
@@ -56,19 +56,34 @@ except ValueError:
     
 while choice != 5:
     match choice:
+        case 0:
+            print()
+            print_menu()
+            try:
+                choice = int(input("Enter your choice: "))
+            except ValueError:
+                print("\nInvalid input. Please enter a number from 1 to 5.\n")
+                choice = 0
         case 1:
             print_tasks(tasks)
+            
+            choice = 0
         case 2:
             new_task_description = input("Enter task name: ")
             
+            if new_task_description == "0":
+                choice = 0
+                continue
+            
             if new_task_description.strip() == "":
-                print("\nTask description cannot be empty. Task not added.\n")
+                print("\nTask description cannot be empty. Task not added. Type 0 to return to main menu\n")
                     
                 continue
             
             if new_task_description.lower() in [task["description"].lower() for task in tasks]:
                 print("\nTask already exists. Task not added.\n")
-                    
+                
+                choice = 0    
                 continue
             
             new_task_deadline = input("Enter deadline (optional) [DD-MM-YY]: ")
@@ -88,6 +103,7 @@ while choice != 5:
             
             print("\nTask added successfully")
             print_tasks(tasks)
+            choice = 0
         case 3:
             try:
                 task_id = int(input("Enter number of the completed task: "))
@@ -98,14 +114,28 @@ while choice != 5:
                 choice = 3
                 continue
             
+            if task_id == "0":
+                choice = 0
+                continue
+            
+            if task_id < 0 or len(tasks) < task_id:
+                print("\nTask does not exist. Please enter valid task number or type 0 to return to main menu\n")
+                
+                continue
+            
             tasks[task_id - 1].update({"is_completed": True})
             
             print(f"\nTask no. {task_id} completed")
             print_tasks(tasks)
+            choice = 0
         case 4:
-            task_ids = input("Enter numbers of the task/s to delete (separated by commas) or type 'all' to delete everything (irreversible): ").strip().lower()
+            task_ids = input("Enter numbers of the task/s to delete (separated by commas) or type 'all' to delete everything (irreversible - type 0 to return to main menu): ").strip().lower()
             
-            print(task_ids)
+            print_tasks(tasks)
+            
+            if task_ids == "0":
+                choice = 0
+                continue
             
             if task_ids == "all":
                 tasks.clear()
@@ -127,18 +157,13 @@ while choice != 5:
                         print(f"Task no. {task_id} does not exist. Skipping.")
                         
                 print()
+            choice = 0
         case _:
             print("\nInvalid choice. Please try again.\n")
+            choice = 0
                 
-                
-    print()
-    print_menu()
-    try:
-        choice = int(input("Enter your choice: "))
-    except ValueError:
-        print("\nInvalid input. Please enter a number from 1 to 5.\n")
-        choice = 0
 
 print("\nThank you for using the To-Do List application. Goodbye!")
+time.sleep(2)
 exit()
     
